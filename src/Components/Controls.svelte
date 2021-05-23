@@ -167,7 +167,7 @@
   {#if loading}
     <img src="/img/loading.svg" alt="loading" width="50" />
   {:else}
-    Save
+    Save Image
   {/if}
 </button>
 

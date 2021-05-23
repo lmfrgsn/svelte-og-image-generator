@@ -1,15 +1,17 @@
-const nodeHtmlToImage = require('node-html-to-image')
+const chromium = require('chrome-aws-lambda')
 
-exports.handler = async function (event) {
+let timestamp = Date.now()
+
+exports.handler = async (event, context) => {
   const data = JSON.parse(event.body)
-  let timestamp = Date.now()
 
-  const image = await nodeHtmlToImage({
-    output: `./public/img/store/${timestamp}.png`,
-    transparent: true,
-    html: `<html>
+  const html = `<html>
     <head>
     <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
     body{
       box-sizing: border-box;
 	    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
@@ -42,25 +44,56 @@ exports.handler = async function (event) {
     </style>
     </head>
     <body style="width:1200px; height: 630px; box-sizing: border-box;">
-    <div class="canvas" style="background-color: {{data.bgColor}}; align-items: {{data.align}}; justify-content: {{data.justify}};">
-      <h1 style="font-size: {{data.titleTextSize}}px; color: {{data.titleTextColor}}">
-        {{data.title}}
+    <div class="canvas" style="background-color: ${
+      data.bgColor
+    }; align-items: ${data.align}; justify-content: ${data.justify};">
+      <h1 style="font-size: ${data.titleTextSize}px; color: ${
+    data.titleTextColor
+  }">
+        ${data.title}
       </h1>
-      <h2 style="font-size: {{data.subTitleTextSize}}px; color: {{data.subTitleTextColor}}">
-        {{data.subTitle}}
+      <h2 style="font-size: ${data.subTitleTextSize}px; color: ${
+    data.subTitleTextColor
+  }">
+        ${data.subTitle}
       </h2>
-      {{#if data.url}}
-        <div>
-        <img class="profile-image" src="{{data.url}}"/>
+      ${
+        data.url
+          ? `
+      <div>
+        <img class="profile-image" src="${data.url}"/>
       </div>
-      {{/if}}
+    `
+          : ``
+      }
     </div>
     </body>
-    </html>`,
-    content: {
-      data: data,
-    },
+    </html>`
+
+  const browser = await chromium.puppeteer.launch({
+    args: chromium.args,
+    defaultViewport: chromium.defaultViewport,
+    executablePath: await chromium.executablePath,
+    headless: chromium.headless,
+    executablePath: '/usr/local/bin/chromium',
   })
+
+  const page = await browser.newPage()
+
+  await page.setContent(html, { waitUntil: 'networkidle2' })
+  await page.setViewport({
+    width: 1200,
+    height: 630,
+  })
+
+  const screenshot = await page.screenshot({
+    encoding: 'binary',
+    type: 'png',
+    path: `./public/img/store/${timestamp}.png`,
+    omitBackground: true,
+  })
+
+  await browser.close()
 
   return {
     statusCode: 200,
