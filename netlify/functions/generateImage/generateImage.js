@@ -3,8 +3,8 @@ const chromium = require('chrome-aws-lambda')
 let timestamp = Date.now()
 
 exports.handler = async (event, context) => {
-  const data = JSON.stringify(event.body)
-
+  const data = JSON.parse(event.body)
+  
   const html = `<html>
     <head>
     <style>
@@ -86,7 +86,7 @@ exports.handler = async (event, context) => {
     height: 630,
   })
 
-  const screenshot = await page.screenshot({
+  await page.screenshot({
     encoding: 'binary',
     type: 'png',
     path: `./public/img/store/${timestamp}.png`,
