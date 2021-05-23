@@ -75,7 +75,7 @@ exports.handler = async (event, context) => {
     defaultViewport: chromium.defaultViewport,
     executablePath: await chromium.executablePath,
     headless: chromium.headless,
-    executablePath: '/usr/local/bin/chromium',
+    // executablePath: '/usr/local/bin/chromium',
   })
 
   const page = await browser.newPage()
