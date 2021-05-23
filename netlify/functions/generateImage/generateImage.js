@@ -89,7 +89,7 @@ exports.handler = async (event, context) => {
   await page.screenshot({
     encoding: 'binary',
     type: 'png',
-    path: `./public/img/store/${timestamp}.png`,
+    path: `public/img/store/${timestamp}.png`,
     omitBackground: true,
   })
 
