@@ -3,7 +3,7 @@ const chromium = require('chrome-aws-lambda')
 let timestamp = Date.now()
 
 exports.handler = async (event, context) => {
-  const data = JSON.parse(event.body)
+  const data = JSON.stringify(event.body)
 
   const html = `<html>
     <head>
