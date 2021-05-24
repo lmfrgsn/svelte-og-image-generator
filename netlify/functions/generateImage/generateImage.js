@@ -89,7 +89,7 @@ exports.handler = async (event, context) => {
   const screenshot = await page.screenshot({
     encoding: 'base64',
     type: 'png',
-    path: `public/img/store/${timestamp}.png`,
+    // path: `public/img/store/${timestamp}.png`,
     omitBackground: true,
   })
 

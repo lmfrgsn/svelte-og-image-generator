@@ -112,28 +112,7 @@
   </div>
   <hr />
   <div class="form-group">
-    <label for="verticalAlign">Vertical Align</label>
-    <div class="btn-group">
-      <button
-        class="btn"
-        on:click={() => align.set('flex-start')}
-        class:selected={$align == 'flex-start'}>Left</button
-      >
-      <button
-        class="btn"
-        on:click={() => align.set('center')}
-        class:selected={$align == 'center'}>Center</button
-      >
-      <button
-        class="btn"
-        on:click={() => align.set('flex-end')}
-        class:selected={$align == 'flex-end'}>Right</button
-      >
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label for="horizontalAlign">Horizontal Align</label>
+    <label for="horizontalAlign">Vertical Align</label>
     <div class="btn-group">
       <button
         class="btn"
@@ -149,6 +128,26 @@
         class="btn"
         on:click={() => justify.set('flex-end')}
         class:selected={$justify == 'flex-end'}>Bottom</button
+      >
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="verticalAlign">Horizontal Align</label>
+    <div class="btn-group">
+      <button
+        class="btn"
+        on:click={() => align.set('flex-start')}
+        class:selected={$align == 'flex-start'}>Left</button
+      >
+      <button
+        class="btn"
+        on:click={() => align.set('center')}
+        class:selected={$align == 'center'}>Center</button
+      >
+      <button
+        class="btn"
+        on:click={() => align.set('flex-end')}
+        class:selected={$align == 'flex-end'}>Right</button
       >
     </div>
   </div>
