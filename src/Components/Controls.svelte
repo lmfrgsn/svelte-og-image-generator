@@ -165,7 +165,7 @@
   disabled={loading}
 >
   {#if loading}
-    <img src="/img/loading.svg" alt="loading" width="50" />
+    <img src="/img/loading.svg" alt="loading" width="50" rel="preload"/>
   {:else}
     Save Image
   {/if}
