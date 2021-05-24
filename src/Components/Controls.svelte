@@ -46,7 +46,8 @@
     loading = false
 
     const json = await res.json()
-    await filename.set(json)
+
+    await filename.set(`data:image/png;base64,${json}`)
 
     document.getElementById('downloadImage').click()
   }

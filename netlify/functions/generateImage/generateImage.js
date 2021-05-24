@@ -4,7 +4,7 @@ let timestamp = Date.now()
 
 exports.handler = async (event, context) => {
   const data = JSON.parse(event.body)
-  
+
   const html = `<html>
     <head>
     <style>
@@ -86,8 +86,8 @@ exports.handler = async (event, context) => {
     height: 630,
   })
 
-  await page.screenshot({
-    encoding: 'binary',
+  const screenshot = await page.screenshot({
+    encoding: 'base64',
     type: 'png',
     path: `public/img/store/${timestamp}.png`,
     omitBackground: true,
@@ -95,8 +95,11 @@ exports.handler = async (event, context) => {
 
   await browser.close()
 
+  const base64Image = await screenshot.toString('base64');
+
   return {
     statusCode: 200,
-    body: JSON.stringify('./img/store/' + timestamp + '.png'),
+    // body: JSON.stringify('./img/store/' + timestamp + '.png'),
+    body: JSON.stringify(base64Image),
   }
 }
